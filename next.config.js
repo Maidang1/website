@@ -14,9 +14,9 @@ const withMDX = require("@next/mdx")({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  experimental: {
-    esmExternals: false, //  https://github.com/chakra-ui/chakra-ui/issues/7167
-  },
+  // experimental: {
+  //   esmExternals: false, //  https://github.com/chakra-ui/chakra-ui/issues/7167
+  // },
   // Configure pageExtensions to include md and mdx
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
   // Optionally, add any other Next.js config below

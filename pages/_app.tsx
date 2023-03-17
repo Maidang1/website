@@ -1,6 +1,6 @@
-import { ChakraProvider } from "@chakra-ui/react";
 import { MDXProvider } from "@mdx-js/react";
 import type { AppProps } from "next/app";
+import Layout from "./layout";
 import "../styles/globals.css";
 
 const components = {
@@ -11,10 +11,10 @@ const components = {
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider>
-      <MDXProvider components={components}>
+    <MDXProvider components={components}>
+      <Layout>
         <Component {...pageProps} />
-      </MDXProvider>
-    </ChakraProvider>
+      </Layout>
+    </MDXProvider>
   );
 }
