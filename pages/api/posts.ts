@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { PostsType } from "../types";
+import { PostsType } from "../../types";
 
 const postsData: PostsType[] = [
   {
-    title: "Signals、Signia、Replit、ChatGPT、CHIPS、技术债",
+    title: "zustand 原理介绍",
     link: "/my-mdx-page",
     time: "2023/02/17",
     index: "第一期",

@@ -1,5 +1,4 @@
-import * as MDX from "@next/mdx";
-const withMDX = MDX.default({
+const withMDX = require("@next/mdx")({
   extension: /\.mdx?$/,
   options: {
     // If you use remark-gfm, you'll need to use next.config.mjs
@@ -15,13 +14,10 @@ const withMDX = MDX.default({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // experimental: {
-  //   esmExternals: false, //  https://github.com/chakra-ui/chakra-ui/issues/7167
-  // },
   // Configure pageExtensions to include md and mdx
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
   // Optionally, add any other Next.js config below
   reactStrictMode: true,
 };
 
-export default withMDX(nextConfig);
+module.exports = withMDX(nextConfig);
