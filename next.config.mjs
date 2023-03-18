@@ -1,6 +1,5 @@
-const path = require("path");
-
-const withMDX = require("@next/mdx")({
+import * as MDX from "@next/mdx";
+const withMDX = MDX.default({
   extension: /\.mdx?$/,
   options: {
     // If you use remark-gfm, you'll need to use next.config.mjs
@@ -23,18 +22,6 @@ const nextConfig = {
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
   // Optionally, add any other Next.js config below
   reactStrictMode: true,
-  webpack: (config, options) => {
-    // config.module.rules.pop();
-    // config.module.rules.push({
-    //   test: /\.mdx/,
-    //   use: [
-    //     options.defaultLoaders.babel,
-    //     path.join(__dirname, "./libs/highlight"),
-    //     "@mdx-js/loader",
-    //   ],
-    // });
-    return config;
-  },
 };
 
-module.exports = withMDX(nextConfig);
+export default withMDX(nextConfig);
