@@ -1,9 +1,12 @@
-import { BlogHeader } from "../components/header";
 import { Posts } from "../components/posts";
 
 const Page = () => (
   <>
-    <BlogHeader />
+    <main className="pt-12">
+      <div className="h-36 flex flex-col items-center justify-center">
+        <h1 className="site-title text-4xl leading-relaxed">MaiDang.notes</h1>
+      </div>
+    </main>
     <Posts />
   </>
 );
