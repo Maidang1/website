@@ -1,6 +1,5 @@
 export interface PostsType {
-  index: string;
+  summary: string;
   title: string;
-  time: string;
   link: string;
 }

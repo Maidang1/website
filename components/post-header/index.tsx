@@ -1,9 +1,13 @@
+import Image from "next/image";
+import AuthorImg from "../assets/author.jpeg";
+
 interface PostHeader {
   title: string;
   summary: string;
+  time: string;
 }
 
-export const PostHeader: React.FC<PostHeader> = ({ title, summary }) => {
+export const PostHeader: React.FC<PostHeader> = ({ title, summary, time }) => {
   return (
     <header className="overflow-hidden pt-6 pb-6 md:pt-12">
       <div className="pt-4 md:pt-6">
@@ -11,6 +15,24 @@ export const PostHeader: React.FC<PostHeader> = ({ title, summary }) => {
           {title}
         </h1>
         <p className="text-black/40 mb-6">{summary}</p>
+        <div className="text-black/80">
+          <section className="flex items-center gap-3 text-sm">
+            <div className="inline-flex items-center">
+              <ul className="flex -space-x-1 overflow-hidden">
+                <li>
+                  <Image
+                    src={AuthorImg}
+                    alt="maidang"
+                    className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
+                  ></Image>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <time dateTime={time}>{new Date(time).toDateString()}</time>
+            </div>
+          </section>
+        </div>
       </div>
     </header>
   );

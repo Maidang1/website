@@ -11,18 +11,24 @@ export const Posts = () => {
   if (isLoading) return <div>loading</div>;
   return (
     <div>
-      <h2 className="text-2xl mt-4">Posts</h2>
-      <ul className="mt-4">
-        {data?.map(({ link, time, index, title }) => {
+      <div className="post-feed max-w-prose px-6 mx-auto grid grid-cols-1 gap-16">
+        {data?.map(({ link, summary, title }) => {
           return (
-            <Link className="post-item" key={index} href={link}>
-              <span className="font-bold mr-2">{index}</span>
-              <span className="mr-2">{title}</span>
-              <span className="text-slate-400">{time}</span>
-            </Link>
+            <article key={link}>
+              <Link href={link}>
+                <header>
+                  <h2 className="post-card-title text-xl font-bold hover:text-[var(--text-main)]">
+                    {title}
+                  </h2>
+                </header>
+                <section className="my-2 text-gray-500">
+                  <p className="line-clamp-4">{summary}</p>
+                </section>
+              </Link>
+            </article>
           );
         })}
-      </ul>
+      </div>
     </div>
   );
 };

@@ -1,0 +1,12 @@
+.block-quota {
+  font-weight: 400;
+  font-style: normal;
+  color: #374151;
+  border-left-width: 0.25rem;
+  border-left-color: #e5e7eb;
+  quotes: "\201c""\201d""\2018""\2019";
+  margin-top: 1.6em;
+  margin-bottom: 1.6em;
+  padding-left: 1em;
+  opacity: 0.8;
+}

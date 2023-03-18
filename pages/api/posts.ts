@@ -5,8 +5,7 @@ const postsData: PostsType[] = [
   {
     title: "zustand 原理介绍",
     link: "/my-mdx-page",
-    time: "2023/02/17",
-    index: "第一期",
+    summary: "浅浅的阅读了一下 zustand 的原理，简单总结一下吧",
   },
 ];
 
