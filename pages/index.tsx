@@ -1,5 +1,11 @@
+import { BlogHeader } from "./components/header";
 import { Posts } from "./components/posts";
 
-const Page = () => <Posts />;
+const Page = () => (
+  <>
+    <BlogHeader />
+    <Posts />
+  </>
+);
 
 export default Page;

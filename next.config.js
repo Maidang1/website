@@ -1,3 +1,5 @@
+const path = require("path");
+
 const withMDX = require("@next/mdx")({
   extension: /\.mdx?$/,
   options: {
@@ -21,6 +23,18 @@ const nextConfig = {
   pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
   // Optionally, add any other Next.js config below
   reactStrictMode: true,
+  webpack: (config, options) => {
+    // config.module.rules.pop();
+    // config.module.rules.push({
+    //   test: /\.mdx/,
+    //   use: [
+    //     options.defaultLoaders.babel,
+    //     path.join(__dirname, "./libs/highlight"),
+    //     "@mdx-js/loader",
+    //   ],
+    // });
+    return config;
+  },
 };
 
 module.exports = withMDX(nextConfig);
