@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import Layout from "./layout";
 import { H1, Li, H2, Code } from "../mdx-custom-components/index";
 import "../styles/globals.css";
+import { Analytics } from "@vercel/analytics/react";
 
 const components = {
   h1: H1,
@@ -18,6 +19,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Layout>
         <Component {...pageProps} />
       </Layout>
+      <Analytics />
     </MDXProvider>
   );
 }
