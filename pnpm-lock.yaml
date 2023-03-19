@@ -32,6 +32,7 @@ specifiers:
   swr: ^2.1.0
   tailwindcss: ^3.2.4
   typescript: 4.9.4
+  unist-util-visit: ^4.1.2
 
 dependencies:
   '@babel/core': 7.20.7
@@ -45,7 +46,7 @@ dependencies:
   '@vercel/analytics': 0.1.11_react@18.2.0
   eslint: 8.30.0
   eslint-config-next: 13.1.1_lzzuuodtsqwxnvqeq4g4likcqa
-  mdx-mermaid: 1.3.2_wgzmypakw2g44grnxw74k4eqoi
+  mdx-mermaid: 1.3.2_d5dxfcu2r4ovpxtiifu45k4pbq
   mermaid: 10.0.2
   next: 13.1.1_fuzycnceajikl2b5me3wqzks2m
   react: 18.2.0
@@ -54,6 +55,7 @@ dependencies:
   react-syntax-highlighter: 15.5.0_react@18.2.0
   swr: 2.1.0_react@18.2.0
   typescript: 4.9.4
+  unist-util-visit: 4.1.2
 
 devDependencies:
   '@emotion/babel-plugin': 11.10.5_@babel+core@7.20.7
@@ -2887,7 +2889,7 @@ packages:
     resolution: {integrity: sha512-/sKlQJCBYVY9Ers9hqzKou4H6V5UWc/M59TH2dvkt+84itfnq7uFOMLpOiOS4ujvHP4etln18fmIxA5R5fll0g==}
     dev: true
 
-  /mdx-mermaid/1.3.2_wgzmypakw2g44grnxw74k4eqoi:
+  /mdx-mermaid/1.3.2_d5dxfcu2r4ovpxtiifu45k4pbq:
     resolution: {integrity: sha512-8kw0tg3isKKBFzFwoe2DhIaEgKYtVeJXQtxZCCrdTPO0CTpXHnTHT0atDqsp7YkXi5iUCp/zAZPZu1cmr68T3w==}
     peerDependencies:
       mermaid: '>=8.11.0'
@@ -2896,6 +2898,7 @@ packages:
     dependencies:
       mermaid: 10.0.2
       react: 18.2.0
+      unist-util-visit: 4.1.2
     dev: false
 
   /merge2/1.4.1:
