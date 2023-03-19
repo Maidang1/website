@@ -27,3 +27,22 @@ function BearCounter() {
   return <h1>{bears} around here...</h1>
 }
 ```
+
+```mermaid
+graph TD;
+A[开始] --> B[create 是否传入了函数];
+B --yes--> C["createImpl(createState)"];
+B --no-->D[createImpl]
+C --> E{"createState 是不是 function"}
+E --yes-->F["api = createStore(createState)"]
+E--no--> G["api = createState"]
+F-->createStoreImpl["createStoreImpl(createState)"]
+createStoreImpl --> delclate["return api= {setState，getState，subscribe，destroy}"]
+delclate--> createState["call () => ({
+  count: 0,
+  text: 'hello',
+}"]
+G-->useBoundStore['constractor useBoundStore = useStore return useBoundStore']
+createState-->useBoundStore
+useBoundStore-->useStore["return useSyncExternalStoreWithSelector(api.subscribe, api.getState, api.getServerState || api.getState, selector,equalityFn )"]
+```
