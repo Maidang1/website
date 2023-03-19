@@ -3,7 +3,8 @@ import a11yLight from "react-syntax-highlighter/dist/cjs/styles/hljs/a11y-light"
 import dynamic from "next/dynamic";
 
 const DynamicMermaid = dynamic(
-  () => import("mdx-mermaid/lib/Mermaid").then((module) => module.Mermaid),
+  // ts-ignore
+  () => import("../components/mermaid/index").then((module) => module.Mermaid),
   { ssr: false }
 );
 
