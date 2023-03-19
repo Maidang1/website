@@ -48,7 +48,7 @@ async function plugin(config) {
     instances.forEach(([node, index, parent], i) => {
       parent.children.splice(index, 1, {
         type: "mermaidCodeBlock",
-        data: { 
+        data: {
           hName: "Mermaid",
           hProperties: {
             config: i > 0 ? undefined : JSON.stringify(config),
@@ -62,4 +62,6 @@ async function plugin(config) {
   };
 }
 
-module.exports = { mermaidPlugin: plugin };
+module.exports = {
+  mermaidPlugin: plugin,
+};
