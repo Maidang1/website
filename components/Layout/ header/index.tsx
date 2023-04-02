@@ -10,10 +10,10 @@ export const LayoutHeader = () => {
         <ul className="nav flex flex-col sm:flex-row text-sm font-medium">
           <li className="nav-portfolio sm:mx-2 border-b sm:border-0 border-black/5 last:border-0 ">
             <Link
-              href="https://github.com/Maidang1"
+              href="https://about.felixwliu.cn"
               className="flex h-12 sm:h-auto items-center hover:text-[var(--text-main)]"
             >
-              Github
+              About Me
             </Link>
           </li>
         </ul>
