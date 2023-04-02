@@ -1,18 +1,11 @@
 import Link from "next/link";
-import useSWR from "swr";
-import { PostsType } from "../../types";
+import { postsData } from "../../data/post";
 
 export const Posts = () => {
-  const { data, error, isLoading } = useSWR("/api/posts", async (...args) => {
-    const res = await fetch(...args);
-    return (await res.json()) as unknown as PostsType[];
-  });
-  if (error) return <div>fail to load</div>;
-  if (isLoading) return <div>loading</div>;
   return (
     <div>
       <div className="post-feed max-w-prose px-6 mx-auto grid grid-cols-1 gap-16">
-        {data?.map(({ link, summary, title }) => {
+        {postsData.map(({ link, summary, title }) => {
           return (
             <article key={link}>
               <Link href={link}>
