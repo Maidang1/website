@@ -1,0 +1,6 @@
+.link {
+  @apply text-color-main;
+}
+.link:hover {
+  text-decoration: underline;
+}
