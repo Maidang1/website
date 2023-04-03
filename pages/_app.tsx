@@ -11,6 +11,7 @@ import {
 } from "../mdx-custom-components/index";
 import "../styles/globals.css";
 import { Analytics } from "@vercel/analytics/react";
+import Head from "next/head";
 
 const components = {
   h1: H1,
@@ -24,6 +25,9 @@ const components = {
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <MDXProvider components={components}>
+      <Head>
+        <title>MaiDang.notes</title>
+      </Head>
       <Layout>
         <Component {...pageProps} />
       </Layout>
