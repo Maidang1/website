@@ -11,15 +11,15 @@ export const PostHeader: React.FC<PostHeader> = ({ title, summary, time }) => {
   return (
     <header className="overflow-hidden pt-6 pb-6 md:pt-12">
       <div className="pt-4 md:pt-6">
-        <h1 className="text-[2rem] text-zinc-800 font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem]">
+        <h1 className="text-[2rem] text-zinc-800 font-bold leading-snug mb-4 md:mb-6 md:text-[2.6rem] dark:text-white">
           {title}
         </h1>
-        <p className="text-black/40 mb-6">{summary}</p>
+        <p className="text-black/40 mb-6 dark:text-white">{summary}</p>
         <div className="text-black/80">
           <section className="flex items-center gap-3 text-sm">
             <div className="inline-flex items-center">
               <ul className="flex -space-x-1 overflow-hidden">
-                <li>
+                <li className="overflow-hidden rounded-[50%]">
                   <Image
                     src={AuthorImg}
                     alt="maidang"
@@ -29,7 +29,9 @@ export const PostHeader: React.FC<PostHeader> = ({ title, summary, time }) => {
               </ul>
             </div>
             <div>
-              <time dateTime={time}>{new Date(time).toDateString()}</time>
+              <time dateTime={time} className="dark:text-white">
+                {new Date(time).toDateString()}
+              </time>
             </div>
           </section>
         </div>

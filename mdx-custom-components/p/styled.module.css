@@ -1,0 +1,3 @@
+.p {
+  @apply dark:text-white;
+}

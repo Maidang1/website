@@ -8,10 +8,12 @@ import {
   Code,
   Blockquote,
   Alink,
+  P,
 } from "../mdx-custom-components/index";
 import "../styles/globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import Head from "next/head";
+import { useDarkMode } from "../hooks/uee-dark";
 
 const components = {
   h1: H1,
@@ -20,9 +22,11 @@ const components = {
   code: Code,
   blockquote: Blockquote,
   a: Alink,
+  p: P,
 };
 
 export default function App({ Component, pageProps }: AppProps) {
+  useDarkMode();
   return (
     <MDXProvider components={components}>
       <Head>

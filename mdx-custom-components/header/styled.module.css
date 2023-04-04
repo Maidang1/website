@@ -1,7 +1,7 @@
 .h1 {
-  @apply text-2xl font-bold mt-6 mb-4;
+  @apply text-2xl font-bold mt-6 mb-4 dark:text-white;
 }
 
 .h2 {
-  @apply mt-4 mb-3 text-xl font-semibold;
+  @apply mt-4 mb-3 text-xl font-semibold dark:text-white;
 }

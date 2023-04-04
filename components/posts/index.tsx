@@ -10,7 +10,7 @@ export const Posts = () => {
             <article key={link}>
               <Link href={link}>
                 <header>
-                  <h2 className="post-card-title text-xl font-bold hover:text-[var(--text-main)]">
+                  <h2 className="post-card-title text-xl font-bold hover:text-[var(--text-main)] dark:text-white">
                     {title}
                   </h2>
                 </header>

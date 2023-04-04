@@ -3,3 +3,4 @@ export { Li } from "./li";
 export { Code } from "./code";
 export { Blockquote } from "./blockquote";
 export { Alink } from "./link";
+export { P } from "./p";
