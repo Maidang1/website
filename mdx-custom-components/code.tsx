@@ -1,7 +1,3 @@
-import SyntaxHighlighter from "react-syntax-highlighter";
-import a11yLight from "react-syntax-highlighter/dist/cjs/styles/hljs/a11y-light";
-import a11yDark from "react-syntax-highlighter/dist/cjs/styles/hljs/a11y-dark";
-
 import dynamic from "next/dynamic";
 import { themeAtom } from "../hooks/uee-dark";
 import { useAtomValue } from "jotai";
