@@ -11,6 +11,7 @@ import {
   P,
 } from "../mdx-custom-components/index";
 import "../styles/globals.css";
+import "@code-hike/mdx/dist/index.css";
 import { Analytics } from "@vercel/analytics/react";
 import Head from "next/head";
 import { useDarkMode } from "../hooks/uee-dark";

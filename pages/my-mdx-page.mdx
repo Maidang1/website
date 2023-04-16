@@ -13,7 +13,8 @@ import { PostHeader } from "../components/post-header"
  ## 基本使用
  > 文档列举出来的功能简单枚举一下
 
-```typescript
+<CH.Code>
+```ts main.ts focus=3
 import { create } from 'zustand'
 
 const useStore = create((set) => ({
@@ -27,7 +28,7 @@ function BearCounter() {
   return <h1>{bears} around here...</h1>
 }
 ```
-
+</CH.Code>
 ```mermaid
 graph TD;
 A[开始] --> B[create 是否传入了函数];

@@ -24,11 +24,6 @@ export const Code = (props: any) => {
     );
   }
   return (
-    <SyntaxHighlighter
-      style={isDark ? a11yDark : a11yLight}
-      language="javascript"
-    >
-      {children}
-    </SyntaxHighlighter>
+    <>{children}</>
   );
 };
