@@ -11,7 +11,7 @@ const DynamicMermaid = dynamic(
 export const Code = (props: any) => {
   const isDark = useAtomValue(themeAtom);
   const { children, className } = props;
-  if (className.includes("mermaid")) {
+  if (className?.includes("mermaid")) {
     return (
       <DynamicMermaid
         chart={children}
