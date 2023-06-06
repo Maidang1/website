@@ -1,0 +1,248 @@
+import { PostHeader } from "../components/post-header";
+
+<PostHeader title="rollup打包记录" summary="记录一下 rollup 打包的过程" time={1686059374975} />
+
+
+# 背景
+
+在进行目前的业务开发的时候有一部分的能力是复用的，需要抽离出来能力变成 npm 包给其他业务使用
+
+# 打包相关
+> 打包工具 rollup
+
+## 打包配置
+
+<CH.Code>
+```ts
+const resolve = require('@rollup/plugin-node-resolve');
+const commonjs = require('@rollup/plugin-commonjs');
+const typescript = require('rollup-plugin-typescript2');
+const json = require('@rollup/plugin-json');
+const replace = require('@rollup/plugin-replace');
+const dts = require('rollup-plugin-dts').default;
+const path = require('path');
+const glob = require('fast-glob');
+const alias = require('@rollup/plugin-alias');
+const { copyAssets } = require('./plugins/copy-assets');
+const { copyCommon } = require('./plugins/copy-common');
+
+const targetEsDir = 'dist/es/';
+const targetTypesDir = 'dist/types/';
+
+// 扫描项目里面的代码部分
+const tsEntries = glob.sync('./src/**/*.{ts, tsx, js, jsx}', {
+  cwd: __dirname,
+  absolute: true,
+});
+
+const srcDir = path.resolve(__dirname, 'src');
+// 构造 input，变成 key-value 形式，方便划分目录结构
+const inputs = tsEntries
+  .filter(file => !file.endsWith('.d.ts'))
+  .reduce((acc, cur) => {
+    acc[path.relative(srcDir, cur).replace(/\.\w+$/, '')] = cur;
+    return acc;
+  }, {});
+
+// less 文件不需要编译，直接拷贝过去
+copyCommon(`${srcDir}/**/*.less`, targetEsDir, srcDir);
+
+/** @type {import('rollup').RollupOptions} */
+module.exports = [
+  {
+    input: inputs,
+    output: {
+      dir: targetEsDir,
+      format: 'es',
+      preserveModules: true,
+      sourcemap: true,
+    },
+    plugins: [
+      // 处理项目里面的别名，打包之后需要编译成相对路径
+      alias({
+        entries: [{ find: '@', replacement: srcDir }],
+      }),
+      // 替换环境变量使用
+      replace({
+        preventAssignment: true,
+        values: {
+          __DEV__: 'process.env.NODE_ENV !== "production"',
+        },
+      }),
+      // 处理静态资源 import 的时候可能别名引用，需要自定义插件处理一下
+      copyAssets(srcDir, path.join(__dirname, 'dist/es')),
+      // 处理 TS 相关
+      typescript({
+        tsconfig: './tsconfig.json',
+        declaration: false,
+        outDir: './dist/es',
+      }),
+      // 处理 require
+      commonjs(),
+      // 解析文件名 xx/index.js ====> xx/index
+      resolve(),
+      // 解析 JSON 格式
+      json(),
+    ],
+    // 标记 external 
+    external: [xx],
+  },
+  // 生成 dts 文件
+  {
+    input: inputs,
+    output: {
+      dir: targetTypesDir,
+      format: 'es',
+      preserveModules: true,
+    },
+    plugins: [dts()],
+    external: [/\.(png|jpe?g|gif|svg|less)$/],
+  },
+];
+```
+</CH.Code>
+
+rollup-plugin-typescript2 在我们目前的项目中 构建很慢，可以换成 @rollup/plugin-typescript 或者 rollup-plugin-esbuild 来加快构建 TS 的速度
+
+# plugins
+## copy-assets
+> 处理静态资源的 copy，另外处理别名，是运行在 rollup 生命周期下面的插件
+<CH.Code>
+```ts
+const path = require('path');
+const fse = require('fs-extra');
+
+const assetsRE = /\.(png|jpe?g|gif|svg|less)$/;
+
+/**
+ *
+ * @param {string} srcRoot
+ * @param {string} distRoot
+ * @returns
+ */
+function copyAssets(srcRoot, distRoot) {
+  return {
+    name: 'copy-assets',
+    /**
+     *
+     * @param {string} source
+     * @param {*} importer
+     * @returns
+     */
+    async resolveId(source, importer) {
+      if (!assetsRE.test(source)) {
+        return null;
+      }
+      // 计算源文件
+      const fileName = path.resolve(path.dirname(importer || '/'), source);
+      // 计算目标文件
+      const targetFileName = path.resolve(distRoot, path.relative(srcRoot, fileName));
+      // 执行拷贝
+      await fse.ensureDir(path.dirname(targetFileName));
+      await fse.copyFile(fileName, targetFileName);
+      // 替换别名
+      if (path.isAbsolute(source)) {
+        const importDir = path.dirname(importer);
+        let relativePath = path.relative(importDir, source);
+        // components/xxx ===> ./components/xxx components 会被认为是包名而不是文件名
+        if (!relativePath.startsWith('./') || !relativePath.startsWith('../')) {
+          relativePath = './' + relativePath;
+        }
+        source = relativePath;
+      }
+      return { id: source, external: true };
+    },
+  };
+}
+
+module.exports = { copyAssets };
+```
+</CH.Code>
+
+## copy-common
+> 指定copy 路径即可，非 rollup 插件
+<CH.Code>
+```ts
+const glob = require('fast-glob');
+const path = require('path');
+const fse = require('fs-extra');
+
+const copyCommon = (form, dest, srcDir) => {
+  const files = glob.sync(form);
+  files.forEach(async file => {
+    const relativePath = path.relative(srcDir, file);
+    const targetFile = path.resolve(dest, relativePath);
+    await fse.ensureDir(path.dirname(targetFile));
+    await fse.copyFile(file, targetFile);
+  });
+};
+
+module.exports = { copyCommon };
+```
+</CH.Code>
+
+## pages.json 配置
+<CH.Code>
+```json
+{
+  "name": "@npm/your-packagename",
+  "version": "0.0.0",
+  "description": "your description",
+  "main": "./dist/es/index", // 指定入口文件
+  "types": "./dist/types/", // 指定类型文件
+  "scripts": {
+   //xxx
+  },
+  "keywords": [
+    "keywords"
+  ],
+  "publishConfig": {
+    "registry": "your registry"
+  },
+  "devDependencies": {
+    // 配置开发需要的 npm 包 例如 rollup
+  },
+  "peerDependencies": {
+    // 配置宿主需要提供的包 例如 react react-dom 
+  },
+  "dependencies": {
+   // 配置运行自己环境必须的包 例如 mobx mobx-react
+  }
+}
+```
+</CH.Code>
+
+
+
+# 开发方式
+## 上面介绍了打包的配置，下面介绍一下开发的方式
+1. 源码编译
+1.1 配置项目的 tsconfig.json 将别名直接指向源码即可，同时需要配置 baseUrl 方便别名路径查找
+
+
+
+```js
+  "paths": {
+      "@npm/your-packagename/*": ["../your-packagename/src/*"],
+      "@npm/your-packagename": ["../your-packagename/src/index"]
+    }
+```
+
+作用避免monorepo path 别名冲突
+
+## 1.2 使用方式
+```js
+import ** from "@npm/your-packagename"
+```
+
+## 2. 产物编译
+## 2.1 执行 SDK 的 build
+
+## 2.2 改变宿主环境的 package.json 然后执行 install
+```json
+"@npm/your-packagename":"workspace:*"
+```
+## 2.3 使用方式
+```js
+import ** from "@npm/your-packagename"
+```
