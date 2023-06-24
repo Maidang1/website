@@ -7,3 +7,7 @@ export const H1 = ({ children }: any) => {
 export const H2 = ({ children }: any) => {
   return <h2 className={styles.h2}>{children}</h2>;
 };
+
+export const H3 = ({ children }: any) => {
+  return <h2 className={styles.h3}>{children}</h2>;
+};

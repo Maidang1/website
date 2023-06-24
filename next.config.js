@@ -11,7 +11,14 @@ const withMDX = require("@next/mdx")({
       [mermaidPlugin, { output: "svg" }],
       [
         remarkCodeHike,
-        { theme, lineNumbers: true, skipLanguages: ["mermaid"] },
+        {
+          theme,
+          lineNumbers: true,
+          skipLanguages: ["mermaid"],
+          showCopyButton: true,
+          showExpandButton: true,
+          autoLink: true,
+        },
       ],
     ],
     rehypePlugins: [],

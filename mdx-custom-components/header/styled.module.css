@@ -5,3 +5,7 @@
 .h2 {
   @apply mt-4 mb-3 text-xl font-semibold dark:text-white;
 }
+
+.h3 {
+  @apply mt-4 mb-3 text-lg font-medium dark:text-white;
+}

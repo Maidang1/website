@@ -15,10 +15,12 @@ import "@code-hike/mdx/dist/index.css";
 import { Analytics } from "@vercel/analytics/react";
 import Head from "next/head";
 import { useDarkMode } from "../hooks/uee-dark";
+import { H3 } from "../mdx-custom-components/header";
 
 const components = {
   h1: H1,
   h2: H2,
+  h3: H3,
   li: Li,
   code: Code,
   blockquote: Blockquote,

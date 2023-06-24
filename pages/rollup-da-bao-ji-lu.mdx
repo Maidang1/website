@@ -1,13 +1,17 @@
 import { PostHeader } from "../components/post-header";
 
-<PostHeader title="rollup打包记录" summary="记录一下 rollup 打包的过程" time={1686059374975} />
-
+<PostHeader
+  title="rollup打包记录"
+  summary="记录一下 rollup 打包的过程"
+  time={1686059374975}
+/>
 
 # 背景
 
 在进行目前的业务开发的时候有一部分的能力是复用的，需要抽离出来能力变成 npm 包给其他业务使用
 
 # 打包相关
+
 > 打包工具 rollup
 
 ## 打包配置
@@ -22,15 +26,15 @@ const replace = require('@rollup/plugin-replace');
 const dts = require('rollup-plugin-dts').default;
 const path = require('path');
 const glob = require('fast-glob');
+// link[7:11] https://www.npmjs.com/package/@rollup/plugin-alias
 const alias = require('@rollup/plugin-alias');
 const { copyAssets } = require('./plugins/copy-assets');
 const { copyCommon } = require('./plugins/copy-common');
-
 const targetEsDir = 'dist/es/';
 const targetTypesDir = 'dist/types/';
 
 // 扫描项目里面的代码部分
-const tsEntries = glob.sync('./src/**/*.{ts, tsx, js, jsx}', {
+const tsEntries = glob.sync('./src/\*_/_.{ts, tsx, js, jsx}', {
   cwd: __dirname,
   absolute: true,
 });
@@ -47,7 +51,7 @@ const inputs = tsEntries
 // less 文件不需要编译，直接拷贝过去
 copyCommon(`${srcDir}/**/*.less`, targetEsDir, srcDir);
 
-/** @type {import('rollup').RollupOptions} */
+/\*_ @type {import('rollup').RollupOptions} _/
 module.exports = [
   {
     input: inputs,
@@ -66,7 +70,7 @@ module.exports = [
       replace({
         preventAssignment: true,
         values: {
-          __DEV__: 'process.env.NODE_ENV !== "production"',
+          DEV: 'process.env.NODE_ENV !== "production"',
         },
       }),
       // 处理静态资源 import 的时候可能别名引用，需要自定义插件处理一下
@@ -84,7 +88,7 @@ module.exports = [
       // 解析 JSON 格式
       json(),
     ],
-    // 标记 external 
+    // 标记 external
     external: [xx],
   },
   // 生成 dts 文件
@@ -99,7 +103,9 @@ module.exports = [
     external: [/\.(png|jpe?g|gif|svg|less)$/],
   },
 ];
-```
+
+
+````
 </CH.Code>
 
 rollup-plugin-typescript2 在我们目前的项目中 构建很慢，可以换成 @rollup/plugin-typescript 或者 rollup-plugin-esbuild 来加快构建 TS 的速度
@@ -156,11 +162,14 @@ function copyAssets(srcRoot, distRoot) {
 }
 
 module.exports = { copyAssets };
-```
+````
+
 </CH.Code>
 
 ## copy-common
-> 指定copy 路径即可，非 rollup 插件
+
+> 指定 copy 路径即可，非 rollup 插件
+
 <CH.Code>
 ```ts
 const glob = require('fast-glob');
@@ -168,17 +177,18 @@ const path = require('path');
 const fse = require('fs-extra');
 
 const copyCommon = (form, dest, srcDir) => {
-  const files = glob.sync(form);
-  files.forEach(async file => {
-    const relativePath = path.relative(srcDir, file);
-    const targetFile = path.resolve(dest, relativePath);
-    await fse.ensureDir(path.dirname(targetFile));
-    await fse.copyFile(file, targetFile);
-  });
+const files = glob.sync(form);
+files.forEach(async file => {
+const relativePath = path.relative(srcDir, file);
+const targetFile = path.resolve(dest, relativePath);
+await fse.ensureDir(path.dirname(targetFile));
+await fse.copyFile(file, targetFile);
+});
 };
 
 module.exports = { copyCommon };
-```
+
+````
 </CH.Code>
 
 ## pages.json 配置
@@ -203,23 +213,22 @@ module.exports = { copyCommon };
     // 配置开发需要的 npm 包 例如 rollup
   },
   "peerDependencies": {
-    // 配置宿主需要提供的包 例如 react react-dom 
+    // 配置宿主需要提供的包 例如 react react-dom
   },
   "dependencies": {
    // 配置运行自己环境必须的包 例如 mobx mobx-react
   }
 }
-```
+````
+
 </CH.Code>
 
-
-
 # 开发方式
+
 ## 上面介绍了打包的配置，下面介绍一下开发的方式
+
 1. 源码编译
-1.1 配置项目的 tsconfig.json 将别名直接指向源码即可，同时需要配置 baseUrl 方便别名路径查找
-
-
+   1.1 配置项目的 tsconfig.json 将别名直接指向源码即可，同时需要配置 baseUrl 方便别名路径查找
 
 ```js
   "paths": {
@@ -228,21 +237,26 @@ module.exports = { copyCommon };
     }
 ```
 
-作用避免monorepo path 别名冲突
+作用避免 monorepo path 别名冲突
 
 ## 1.2 使用方式
+
 ```js
 import ** from "@npm/your-packagename"
 ```
 
 ## 2. 产物编译
-## 2.1 执行 SDK 的 build
 
-## 2.2 改变宿主环境的 package.json 然后执行 install
+### 2.1 执行 SDK 的 build
+
+### 2.2 改变宿主环境的 package.json 然后执行 install
+
 ```json
 "@npm/your-packagename":"workspace:*"
 ```
-## 2.3 使用方式
+
+### 2.3 使用方式
+
 ```js
 import ** from "@npm/your-packagename"
 ```
