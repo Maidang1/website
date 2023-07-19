@@ -39,7 +39,7 @@
     "@types/styled-components": "^5.1.26",
     "autoprefixer": "^10.4.13",
     "cac": "^6.7.14",
-    "esno": "^0.16.3",
+    "esno": "^0.17.0",
     "gray-matter": "^4.0.3",
     "magic-string": "^0.30.0",
     "markdown-it": "^13.0.1",
